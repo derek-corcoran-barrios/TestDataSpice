@@ -26,3 +26,10 @@ edit_creators()
 # biblio
 
 edit_biblio()
+
+
+## Write json file
+
+write_spice()
+
+build_site()

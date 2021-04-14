@@ -1,0 +1,286 @@
+{
+  "@context": "http://schema.org",
+  "type": "Dataset",
+  "name": "Vegetation analysis of Mols rewilding project",
+  "creator": [
+    {
+      "type": "Person",
+      "id": "0000-0002-4490-8710",
+      "email": "bjarke.madsen@bio.au.dk",
+      "affiliation": "University of Aarhus",
+      "name": "Bjarke Madsen"
+    },
+    {
+      "type": "Person",
+      "id": "0000-0002-8782-4154",
+      "email": "signe.normand@bio.au.dk",
+      "affiliation": "University of Aarhus",
+      "name": "Singe Normand"
+    },
+    {
+      "type": "Person",
+      "id": "0000-0002-0248-6230",
+      "email": "derek.corcoran@bio.au.dk",
+      "affiliation": "University of Aarhus",
+      "name": "Derek Corcoran"
+    }
+  ],
+  "description": "A monitoring program was initiated during the 2017 field season in a semi-natural grassland around Molslaboratoriet in National park Mols Bjerge. 22 randomly selected areas for permanent vegetation monitoring (referred to as ExpRewild blocks) were established during early summer in 2017 with each 4 treatment plots and 1 control plot. The different treatments in the programme consist of mowing, all-year exclosure, summer exclosure and winter exclosure. At each plot, one side was delimited for arthropod sampling while the other for the vegetation sampling.",
+  "datePublished": "2021-04-14",
+  "keywords": "Diversity analysis",
+  "funder": "University of Aarhus",
+  "temporalCoverage": "2017-06-03/2020-07-28",
+  "license": "MIT",
+  "spatialCoverage": {
+    "type": "Place",
+    "name": "Mols Bjerge National Park",
+    "geo": {
+      "type": "GeoShape",
+      "box": "56.23211 10.59313 56.22559 10.56296"
+    }
+  },
+  "variableMeasured": [
+    {
+      "type": "PropertyValue",
+      "unitText": "Root Mean Square Error",
+      "name": "rmse",
+      "description": "Perfromance of the model"
+    },
+    {
+      "type": "PropertyValue",
+      "unitText": "residual standard error",
+      "name": "sigma",
+      "description": "estimated standard deviation of the errors"
+    },
+    {
+      "type": "PropertyValue",
+      "unitText": "Likelihood",
+      "name": "score.log",
+      "description": "Log likelihood"
+    },
+    {
+      "type": "PropertyValue",
+      "unitText": "dimensionless",
+      "name": "score.spherical",
+      "description": "Spherical conditional modes"
+    },
+    {
+      "type": "PropertyValue",
+      "unitText": "Dependant on the value",
+      "name": "term",
+      "description": "Term to be estimated"
+    },
+    {
+      "type": "PropertyValue",
+      "unitText": "Dependant on term",
+      "name": "estimate",
+      "description": "Estimate value of the slope, intercept or modifier"
+    },
+    {
+      "type": "PropertyValue",
+      "unitText": "Dimensionless",
+      "name": "std.error",
+      "description": "Standard error of the estimation"
+    },
+    {
+      "type": "PropertyValue",
+      "unitText": "Percent",
+      "name": "conf.level",
+      "description": "Level for confidence interval"
+    },
+    {
+      "type": "PropertyValue",
+      "unitText": "dimensionless",
+      "name": "conf.low",
+      "description": "Lower value of the 95% confidence interval"
+    },
+    {
+      "type": "PropertyValue",
+      "unitText": "dimensionless",
+      "name": "conf.high",
+      "description": "Higher value of the 95% confidence interval"
+    },
+    {
+      "type": "PropertyValue",
+      "unitText": "dimensionless",
+      "name": "statistic",
+      "description": "F value"
+    },
+    {
+      "type": "PropertyValue",
+      "unitText": "dimensionless",
+      "name": "df.error",
+      "description": "Degrees of freedom"
+    },
+    {
+      "type": "PropertyValue",
+      "unitText": "dimensionless",
+      "name": "p.value",
+      "description": "Significance value"
+    },
+    {
+      "type": "PropertyValue",
+      "unitText": "Meters above sea level",
+      "name": "Elevation",
+      "description": "Elevations measured at the plot"
+    },
+    {
+      "type": "PropertyValue",
+      "unitText": "Years",
+      "name": "YEAR",
+      "description": "Year when the measurement was taken"
+    },
+    {
+      "type": "PropertyValue",
+      "unitText": "Class",
+      "name": "Treatment",
+      "description": "One of Control, Winter exclousure, Summer Exclousure, Permanent Exclousure or Permanent excousure with mowing"
+    },
+    {
+      "type": "PropertyValue",
+      "unitText": "Radians",
+      "name": "aspect",
+      "description": "the compass direction that a slope faces"
+    },
+    {
+      "type": "PropertyValue",
+      "unitText": "Degrees",
+      "name": "slope",
+      "description": "Steepness of the area"
+    },
+    {
+      "type": "PropertyValue",
+      "unitText": "Class",
+      "name": "InitialHabitat",
+      "description": "What was the Habitat in 2017, Meadow, Forest or Rangeland"
+    },
+    {
+      "type": "PropertyValue",
+      "unitText": "ID",
+      "name": "BlockNo",
+      "description": "Id of the block"
+    },
+    {
+      "type": "PropertyValue",
+      "unitText": "dimensionless",
+      "name": "Shannon",
+      "description": "Shannon index"
+    },
+    {
+      "type": "PropertyValue",
+      "unitText": "Interger",
+      "name": "Richness",
+      "description": "Number of species"
+    },
+    {
+      "type": "PropertyValue",
+      "unitText": "name",
+      "name": "package",
+      "description": "Package present"
+    },
+    {
+      "type": "PropertyValue",
+      "unitText": "version",
+      "name": "ondiskversion",
+      "description": "Version saved on disk"
+    },
+    {
+      "type": "PropertyValue",
+      "unitText": "version",
+      "name": "loadedversion",
+      "description": "Version loaded on session"
+    },
+    {
+      "type": "PropertyValue",
+      "unitText": "path",
+      "name": "path",
+      "description": "path to the version in the computer"
+    },
+    {
+      "type": "PropertyValue",
+      "unitText": "path",
+      "name": "loadedpath",
+      "description": "path to the loaded version"
+    },
+    {
+      "type": "PropertyValue",
+      "unitText": "Logical",
+      "name": "attached",
+      "description": "is the package attached?"
+    },
+    {
+      "type": "PropertyValue",
+      "unitText": "Logical",
+      "name": "is_base",
+      "description": "Is this a base package"
+    },
+    {
+      "type": "PropertyValue",
+      "unitText": "date",
+      "name": "date",
+      "description": "Date of the version of the package"
+    },
+    {
+      "type": "PropertyValue",
+      "unitText": "R version",
+      "name": "source",
+      "description": "What is the sourced version of the package"
+    },
+    {
+      "type": "PropertyValue",
+      "unitText": "Nothing",
+      "name": "md5ok",
+      "description": "Nothing"
+    },
+    {
+      "type": "PropertyValue",
+      "unitText": "path",
+      "name": "library",
+      "description": "where are all packages storaged"
+    },
+    {
+      "type": "PropertyValue",
+      "unitText": "Operative system",
+      "name": "Setting",
+      "description": "OS"
+    },
+    {
+      "type": "PropertyValue",
+      "unitText": "Character",
+      "name": "value",
+      "description": "Character"
+    }
+  ],
+  "distribution": [
+    {
+      "type": "DataDownload",
+      "name": "Models_Performance",
+      "contentUrl": "https://github.com/derek-corcoran-barrios/TestDataSpice/",
+      "encodingFormat": "csv"
+    },
+    {
+      "type": "DataDownload",
+      "name": "Models_Table",
+      "contentUrl": "https://github.com/derek-corcoran-barrios/TestDataSpice/",
+      "encodingFormat": "csv"
+    },
+    {
+      "type": "DataDownload",
+      "name": "Mols",
+      "contentUrl": "https://github.com/derek-corcoran-barrios/TestDataSpice/",
+      "encodingFormat": "csv"
+    },
+    {
+      "type": "DataDownload",
+      "name": "Packages",
+      "contentUrl": "https://github.com/derek-corcoran-barrios/TestDataSpice/",
+      "encodingFormat": "csv"
+    },
+    {
+      "type": "DataDownload",
+      "name": "platform",
+      "contentUrl": "https://github.com/derek-corcoran-barrios/TestDataSpice/",
+      "encodingFormat": "csv"
+    }
+  ]
+}
