@@ -1,1 +1,36 @@
 fileName,variableName,description,unitText
+Models_Performance.csv,rmse,Perfromance of the model,Root Mean Square Error
+Models_Performance.csv,sigma,estimated standard deviation of the errors,residual standard error
+Models_Performance.csv,score.log,Log likelihood,Likelihood
+Models_Performance.csv,score.spherical,Spherical conditional modes,dimensionless
+Models_Table.csv,term,Term to be estimated,Dependant on the value
+Models_Table.csv,estimate,"Estimate value of the slope, intercept or modifier",Dependant on term
+Models_Table.csv,std.error,Standard error of the estimation,Dimensionless
+Models_Table.csv,conf.level,Level for confidence interval,Percent
+Models_Table.csv,conf.low,Lower value of the 95% confidence interval,dimensionless
+Models_Table.csv,conf.high,Higher value of the 95% confidence interval,dimensionless
+Models_Table.csv,statistic,F value,dimensionless
+Models_Table.csv,df.error,Degrees of freedom,dimensionless
+Models_Table.csv,p.value,Significance value,dimensionless
+Mols.csv,Elevation,Elevations measured at the plot,Meters above sea level
+Mols.csv,YEAR,Year when the measurement was taken,Years
+Mols.csv,Treatment,"One of Control, Winter exclousure, Summer Exclousure, Permanent Exclousure or Permanent excousure with mowing",Class
+Mols.csv,aspect,the compass direction that a slope faces,Radians
+Mols.csv,slope,Steepness of the area,Degrees
+Mols.csv,InitialHabitat,"What was the Habitat in 2017, Meadow, Forest or Rangeland",Class
+Mols.csv,BlockNo,Id of the block,ID
+Mols.csv,Shannon,Shannon index,dimensionless
+Mols.csv,Richness,Number of species,Interger
+Packages.csv,package,Package present,name
+Packages.csv,ondiskversion,Version saved on disk,version
+Packages.csv,loadedversion,Version loaded on session,version
+Packages.csv,path,path to the version in the computer,path
+Packages.csv,loadedpath,path to the loaded version,path
+Packages.csv,attached,is the package attached?,Logical
+Packages.csv,is_base,Is this a base package,Logical
+Packages.csv,date,Date of the version of the package,date
+Packages.csv,source,What is the sourced version of the package,R version
+Packages.csv,md5ok,Nothing,Nothing
+Packages.csv,library,where are all packages storaged,path
+platform.csv,Setting,OS,Operative system
+platform.csv,value,Character,Character

@@ -1,1 +1,6 @@
-﻿fileName,name,contentUrl,encodingFormat
+fileName,name,contentUrl,encodingFormat
+Models_Performance.csv,Models_Performance,NA,csv
+Models_Table.csv,Models_Table,NA,csv
+Mols.csv,Mols,NA,csv
+Packages.csv,Packages,NA,csv
+platform.csv,platform,NA,csv

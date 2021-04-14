@@ -5,11 +5,18 @@ create_spice()
 
 # Populate attributes
 
-prep_attributes()
+for(i in 1:length(F1)){
+  prep_attributes(data_path = F1[i])
+}
 edit_attributes()
-# Populate access
+  # Populate access
 
-prep_access()
+F1 <-  list.files(path = getwd(), pattern = ".csv", full.names = T)
+
+for(i in 1:length(F1)){
+  prep_access(data_path = F1[i])
+}
+
 edit_access()
 
 # Edit creators
