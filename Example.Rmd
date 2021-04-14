@@ -1,0 +1,206 @@
+---
+title: "Mols analysis example"
+author: "Derek Corcoran"
+date: "`r Sys.Date()`"
+output:
+  bookdown::pdf_document2:
+    fig_caption: true
+    toc: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, error = FALSE, tidy = "formatR", cache = FALSE)
+# For data wrangling
+library(tidyverse)
+# To get model parameters
+library(broomExtra)
+# For AICc selection
+library(MuMIn)
+# For Generalized Linear Mixed Models
+library(lme4)
+# For tables
+library(kableExtra)
+```
+
+
+```{r}
+Mols <- read_csv("Mols.csv")
+Mols <- Mols %>% arrange(YEAR)
+```
+
+
+
+# Methods
+
+## Data manipulation
+
+For this test we will only use the larger ring data
+
+To be able to use `Cover` as a numeric variable, the base level "+" will be transformed into, 1, then transform the variable into numeric and finally scale from 0 to 1. Also there are several taxa that do not appear in all sites, it is assumed that these taxa have a coverage of zero in all of those sites, we add this to the dataset. Then we used the `specnumber` and `diversity` from de vegan package [@Oksanen2020] to calculate species richness and Shannon diversity Index. This result in the pattens shown in figures \@ref(fig:RichnessRaw), \@ref(fig:DiversityRaw).
+
+```{r RichnessRaw, fig.cap= "Time series of species richness for each Block, each tile represents a combination of treatment and initial habitat"}
+ggplot(Mols, aes(x = YEAR, y = Richness, group = BlockNo)) +
+  geom_path() +
+  geom_point() +
+  facet_grid(InitialHabitat ~ Treatment) +
+  theme_bw() +
+  labs(x = "Year")
+```
+
+```{r DiversityRaw, fig.cap= "Time series of shannon diversity for each Block, each tile represents a combination of treatment and initial habitat"}
+ggplot(Mols, aes(x = YEAR, y = Shannon, group = BlockNo)) +
+  geom_path() +
+  geom_point() +
+  facet_grid(InitialHabitat ~ Treatment) +
+  theme_bw() +
+  labs(x = "Year")
+```
+
+
+## Statistical analysis
+
+The most general mixed model effect was generated using the lme4 package [@bates2010lme4], then all variations of such model were tested using the MuMIn package [@Barton2020] and ranked using the corrected Akaike Information Criterion (AICc). If the best model had at least a difference of two in AICc with the next model the best model was used. If that was not the case, all the models within that range were used to generate a full model average following @anderson2004model.
+
+There where two phenomenons to take into account, the change of diversity, richness or cover for a specific group due to the treatment for each time of initial habitat, and the regional drought from 2018. In order to deal with this we used the following general equatieon:
+
+```{r, echo = TRUE, eval = FALSE}
+y ~ aspect + Elevation + 
+                     InitialHabitat  +
+                       I(abs(YEAR - 1)) +
+                       I((YEAR-1)^2) +
+                     slope +
+                     Treatment:InitialHabitat +
+                     YEAR:InitialHabitat +
+                     YEAR:Treatment + 
+                     YEAR:Treatment:InitialHabitat + 
+                     (1 | BlockNo)
+```
+
+The Year interaction with Initial Habitat, Treatment or both without adding the Year term on its own ensures that if the year 2017 is coded as year 0 that the effect to be tested will be that if a plot was started in the same block, they should start with the same Richness/Diversity/Taxa cover, whereas the $\lvert (Year - 1) \rvert$ and $(Year - 1)^2$ terms will show the spike or dip that might have been caused by the drought year. For each of the different anayses a glmm with the propper family or basic lmm was performed depending on the nature of the response variable:
+
+* **Richess:** Since richness can only be a discrete positive value, we used a Poisson GLMM
+* **Diversity:** For diversity, we did a similar approach but with a regular mixed effects linear model, since the response variable (Shannon's diversity index)
+
+# Results
+
+## Richness
+
+```{r}
+# Get a list of names of taxa in the same order as the list
+Mols2 <- Mols %>% mutate(BlockNo = as.factor(BlockNo), YEAR = YEAR - 2017, Treatment = fct_relevel(Treatment, "PermanentExclosure"))
+# Get the top model by AICc for each model and save the model
+Model <- glmer(Richness ~ aspect + Elevation + 
+                     InitialHabitat  +
+                       I(abs(YEAR - 1)) +
+                       I((YEAR-1)^2) +
+                     slope +
+                     Treatment:InitialHabitat +
+                     YEAR:InitialHabitat +
+                     YEAR:Treatment + 
+                     YEAR:Treatment:InitialHabitat + 
+                     (1 | BlockNo), family = poisson, data = Mols2, control = glmerControl(optimizer = "bobyqa", optCtrl = list(maxfun = 100000)))
+```
+
+
+```{r SameStartModel, results='hide'}
+options(na.action = "na.fail")
+
+library(doParallel)
+cl <- makeCluster(4) 
+registerDoParallel(cl)
+
+clusterEvalQ(cl, library(lme4))
+clusterExport(cl, "Mols2")
+
+Select <- MuMIn::pdredge(Model, extra = list(R2m = function(x) r.squaredGLMM(x)[1, 1], R2c = function(x) r.squaredGLMM(x)[1, 2]),fixed = ~YEAR:Treatment, cluster = cl)
+
+stopCluster(cl)
+```
+
+
+```{r}
+Selected <- subset(Select, delta < 2)
+
+Table1 <- Selected %>%
+  as.data.frame() %>%
+  select_if(~ sum(!is.na(.)) > 0) %>%
+  mutate_if(is.numeric, ~ round(.x, 2)) %>%
+  dplyr::select(-df, -logLik)
+
+NewData <- expand.grid(
+  stringsAsFactors = F,
+  Elevation = mean(Mols2$Elevation),
+  InitialHabitat = unique(Mols2$InitialHabitat),
+  Treatment = unique(Mols2$Treatment),
+  YEAR = seq(min(Mols2$YEAR), max(Mols2$YEAR), by = 0.1),
+  slope = mean(Mols2$slope),
+  aspect = mean(Mols2$aspect)
+)
+
+if (nrow(Table1) == 1) {
+  BestModel <- get.models(Selected, 1)[[1]]
+  NewData$Predicted <- predict(BestModel, newdata = NewData, full = T, re.form = NA, type = "response")
+} else if (nrow(Table1) > 1) {
+  ModelAverage <- model.avg(Selected, fit = TRUE)
+  NewData$Predicted <- predict(ModelAverage, newdata = NewData, full = T, re.form = NA, type = "response")
+}
+
+
+NewData <- NewData %>%
+  mutate(YEAR = YEAR + 2017) %>%
+  rename(Year = YEAR)
+```
+
+For the richness model a total of `r nrow(Select)` models were tested and we ended up with `r nrow(Table1)` models to be used to generate an average model. The models with the selected variable parameters and with the marginal and conditional $R^2$ [@nakagawa2017coefficient] can be seen in table \@ref(tab:SameStartTable) and the parameters of the average model are in table \@ref(tab:SameStartAvg), and the response of each treatment for each habitat in average conditions is shown in figure \@ref(fig:PredRichness).
+
+```{r SameStartTable}
+kbl(Table1, booktabs = T, caption = "Models that were used for the model average for the same start model", row.names = F) %>% kable_styling(font_size = 5)
+```
+
+```{r SameStartAvg}
+dplyr::select(broomExtra::tidy_parameters(ModelAverage), -conf.level, -conf.low, - conf.high, -df.error)  %>% dplyr::filter(str_detect(term, "Treatment"))  %>%  kbl(booktabs = T, caption = "Parameters for the model average for the same start model", row.names = F, digits = 3)
+```
+
+
+```{r PredRichness, fig.cap="Predicted richness for each treatment and initial habitat"}
+ggplot(NewData, aes(x = Year, y = Predicted)) +
+  geom_path(aes(color = Treatment)) +
+  facet_wrap(~InitialHabitat) +
+  theme_bw()
+```
+
+
+```{r GenerateTable"}
+Models_Table <- broomExtra::tidy_parameters(ModelAverage)
+Models_Performance <- broomExtra::glance_performance(ModelAverage)
+# Save models as an RDS file and models tables as a csv file
+saveRDS(ModelAverage, "Models.rds")
+write_csv(Models_Table, "Models_Table.csv")
+write_csv(Models_Performance, "Models_Performance.csv")
+```
+
+
+# References
+
+<iv id="refs"></div>
+
+# Reproducibility ticket
+
+```{r}
+devtools::session_info()
+Session <- devtools::session_info()
+
+## Write the platform info
+
+platform <- data.frame(Setting = names(Session$platform)[-1], value = as.character(unlist(Session$platform[2:length(Session$platform)])))
+
+## And the packages info
+
+Packages <- as.data.frame(Session$packages)
+
+## Export as csvs
+
+write_csv(platform, "platform.csv")
+write_csv(Packages, "Packages.csv")
+```
+  
