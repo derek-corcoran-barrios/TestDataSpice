@@ -1,6 +1,6 @@
 fileName,name,contentUrl,encodingFormat
-Models_Performance.csv,Models_Performance,NA,csv
-Models_Table.csv,Models_Table,NA,csv
-Mols.csv,Mols,NA,csv
-Packages.csv,Packages,NA,csv
-platform.csv,platform,NA,csv
+Models_Performance.csv,Models_Performance,https://github.com/derek-corcoran-barrios/TestDataSpice/,csv
+Models_Table.csv,Models_Table,https://github.com/derek-corcoran-barrios/TestDataSpice/,csv
+Mols.csv,Mols,https://github.com/derek-corcoran-barrios/TestDataSpice/,csv
+Packages.csv,Packages,https://github.com/derek-corcoran-barrios/TestDataSpice/,csv
+platform.csv,platform,https://github.com/derek-corcoran-barrios/TestDataSpice/,csv
